@@ -1,3 +1,5 @@
+import { compareDates } from './utils.js';
+
 function getWorkouts(){
     return [
         {
@@ -33,6 +35,19 @@ function getWorkouts(){
     ];
 }
 
+function workoutsReceiver(key, value){
+    switch(key){
+        case 'name':
+            return value;
+        case 'numberOfExercises':
+            return parseInt(value);
+        case 'lastTraining':
+            return new Date(value);
+        default:
+            return value;
+    }
+}
+
 class Workouts {
     constructor(){
         this.workouts = getWorkouts();
@@ -63,7 +78,7 @@ class Workouts {
         return `<tr>
                     <td>${workout.name}</td>
                     <td>${workout.numberOfExercises}</td>
-                    <td>${workout.lastTraining.toLocaleDateString()}</td>
+                    <td>${workout.lastTraining.toLocaleDateString("pl-PL")}</td>
                 </tr>`;
     }
 
@@ -79,7 +94,11 @@ class Workouts {
 
     loadFromLocalStorage(){
         if(localStorage.getItem('workouts')){
-            this.workouts = JSON.parse(localStorage.getItem('workouts'));
+            this.workouts = JSON.parse(localStorage.getItem('workouts'), workoutsReceiver);
+        }
+        else{
+            this.workouts = getWorkouts();
+            this.syncWithLocalStorage();
         }
     }
 }
@@ -88,7 +107,7 @@ class Workouts {
 
 var workouts = new Workouts();
 
-function setupWorkoutsTable(){
+window.onload = function setupWorkoutsTable(){
     workouts.loadFromLocalStorage();
 
     workouts.generateWorkoutsTable();
