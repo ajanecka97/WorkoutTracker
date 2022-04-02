@@ -1,43 +1,20 @@
-import { compareDates } from "../utils.js";
-import { defaultWorkouts } from "../constants.js";
-
-function loadWorkoutsFromLocalStorage() {
-	let workoutsFromLocalStorage = localStorage.getItem("workouts");
-
-	if (workoutsFromLocalStorage) {
-		return JSON.parse(workoutsFromLocalStorage, workoutsReviver);
-	} else {
-		saveWorkoutsToLocalStorage(defaultWorkouts);
-		return defaultWorkouts;
-	}
-}
-
-function saveWorkoutsToLocalStorage(workouts) {
-	localStorage.setItem(
-		"workouts",
-		JSON.stringify(workouts, workoutsReplacer)
-	);
-}
-
-function workoutsReviver(key, value) {
-	switch (key) {
-		case "name":
-			return value;
-		case "numberOfExercises":
-			return parseInt(value);
-		case "lastTraining":
-			return new Date(value);
-		default:
-			return value;
-	}
-}
+import { compareDates, impale } from "../utils.js";
+import { getWorkouts, setupLocalStorage } from "../store.js";
 
 function renderWorkoutTableRow(workout) {
+	console.log(workout);
 	return `
     <tr>
         <td>${workout.name}</td>
-        <td>${workout.numberOfExercises}</td>
-        <td>${workout.lastTraining.toLocaleDateString()}</td>
+        <td>${workout.exercises.length}</td>
+        <td>${workout.lastTraining ?? ""}</td>
+		<td>
+			<a id="${impale(workout.name) + `-button`}"
+			 class="btn"
+			 href="./pages/workout.html?id=${workout.id}">
+			 	<img src = "./assets/chevron-right.svg"/>
+			</a>
+		</td>
     </tr>
     `;
 }
@@ -49,11 +26,15 @@ function renderWorkoutTable(workouts) {
 
 // main script
 
-var workouts;
-
 window.onload = function setupWorkoutsTable() {
-	workouts = loadWorkoutsFromLocalStorage();
+	setupLocalStorage();
+	const workouts = getWorkouts();
 	workouts.sort((a, b) => compareDates(a.lastTraining, b.lastTraining, true));
 
 	renderWorkoutTable(workouts);
+
+	const workoutsTableBody = document.getElementById("workouts-table-body");
+	for (const button of workoutsTableBody.querySelectorAll("button")) {
+		button.addEventListener("click", setupWorkoutModal);
+	}
 };
