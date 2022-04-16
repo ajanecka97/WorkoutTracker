@@ -3,22 +3,24 @@ import {
 	getExerciseHistoryItems,
 	getWorkoutById,
 	getExerciseById,
-} from "../store.js";
+	editWorkout,
+} from '../store.js';
 import {
 	getQueryParameterFromUrl,
-	groupByProperty,
 	toLocaleDateString,
 	impale,
-} from "../utils.js";
+	groupByPropertySorted,
+	compareDatesFromStrings,
+} from '../utils.js';
 
 function saveExerciseHisotryItem(event) {
 	event.preventDefault();
-	const exerciseRepsInput = document.getElementById("exercise-reps");
-	const exerciseWeightInput = document.getElementById("exercise-weight");
+	const exerciseRepsInput = document.getElementById('exercise-reps');
+	const exerciseWeightInput = document.getElementById('exercise-weight');
 
 	const exerciseHistoryItem = {
-		exerciseId: getQueryParameterFromUrl("id"),
-		workoutId: getQueryParameterFromUrl("workoutId"),
+		exerciseId: getQueryParameterFromUrl('id'),
+		workoutId: getQueryParameterFromUrl('workoutId'),
 		reps: exerciseRepsInput.value,
 		weight: exerciseWeightInput.value,
 		date: Date.now(),
@@ -31,23 +33,24 @@ function saveExerciseHisotryItem(event) {
 function groupExerciseHistoryItemsByDate() {
 	const exerciseHistoryItems = getExerciseHistoryItems();
 	const filteredExerciseHistoryItems = exerciseHistoryItems.filter(
-		(exerciseHistoryItem) =>
-			exerciseHistoryItem.exerciseId === getQueryParameterFromUrl("id")
+		(exerciseHistoryItem) => exerciseHistoryItem.exerciseId === getQueryParameterFromUrl('id')
 	);
 
-	const groupedExerciseHistoryItems = groupByProperty(
+	const groupedExerciseHistoryItems = groupByPropertySorted(
 		filteredExerciseHistoryItems,
-		"date",
-		toLocaleDateString
+		'date',
+		toLocaleDateString,
+		compareDatesFromStrings,
+		true
 	);
 
 	return groupedExerciseHistoryItems;
 }
 
 function renderExerciseHeader() {
-	const exercise = getExerciseById(getQueryParameterFromUrl("id"));
+	const exercise = getExerciseById(getQueryParameterFromUrl('id'));
 
-	const exerciseHeader = document.getElementById("exercise-header");
+	const exerciseHeader = document.getElementById('exercise-header');
 	exerciseHeader.innerHTML = `
         <h1 class="display-4">${exercise.name}</h1>
         <p class="lead">${exercise.description}</p>
@@ -55,18 +58,15 @@ function renderExerciseHeader() {
 }
 
 function renderExerciseHistoryHeader(date) {
-	const header = document.createElement("div");
-	header.classList.add("accordion-item");
+	const header = document.createElement('div');
+	header.classList.add('accordion-item');
 	header.innerHTML = `
-        <h2 class="accordion-header" id="date-${impale(date, ".")}-heading">
+        <h2 class="accordion-header" id="date-${impale(date, '.')}-heading">
             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                 data-bs-target="#date-${impale(
 					date,
-					"."
-				)}" aria-expanded="true" aria-controls="#date-${impale(
-		date,
-		"."
-	)}">
+					'.'
+				)}" aria-expanded="true" aria-controls="#date-${impale(date, '.')}">
                 ${date}
             </button>
         </h2>
@@ -75,7 +75,7 @@ function renderExerciseHistoryHeader(date) {
 }
 
 function renderExerciseHistoryItemsTableHeader() {
-	const tableHeader = document.createElement("tr");
+	const tableHeader = document.createElement('tr');
 	tableHeader.innerHTML = `
         <th>Data</th>
         <th>Liczba powtórzeń</th>
@@ -85,9 +85,9 @@ function renderExerciseHistoryItemsTableHeader() {
 }
 
 function renderExerciseHistoryItemsTableBody(exerciseHistoryItems) {
-	const tableBody = document.createElement("tbody");
+	const tableBody = document.createElement('tbody');
 	exerciseHistoryItems.forEach((exerciseHistoryItem) => {
-		const tableRow = document.createElement("tr");
+		const tableRow = document.createElement('tr');
 		tableRow.innerHTML = `
             <td>${new Date(exerciseHistoryItem.date).toLocaleTimeString()}</td>
             <td>${exerciseHistoryItem.reps}</td>
@@ -99,16 +99,9 @@ function renderExerciseHistoryItemsTableBody(exerciseHistoryItems) {
 }
 
 function renderExerciseHistoryItemsTable(exerciseHistoryItems) {
-	const exerciseHistoryItemsTable = document.createElement("table");
-	exerciseHistoryItemsTable.classList.add(
-		"accordion-body",
-		"table",
-		"table-striped",
-		"my-2"
-	);
-	exerciseHistoryItemsTable.appendChild(
-		renderExerciseHistoryItemsTableHeader()
-	);
+	const exerciseHistoryItemsTable = document.createElement('table');
+	exerciseHistoryItemsTable.classList.add('accordion-body', 'table', 'table-striped', 'my-2');
+	exerciseHistoryItemsTable.appendChild(renderExerciseHistoryItemsTableHeader());
 	exerciseHistoryItemsTable.appendChild(
 		renderExerciseHistoryItemsTableBody(exerciseHistoryItems)
 	);
@@ -117,48 +110,34 @@ function renderExerciseHistoryItemsTable(exerciseHistoryItems) {
 
 function renderExerciseHistory() {
 	const groupedExerciseHistoryItems = groupExerciseHistoryItemsByDate();
-	const exerciseHistory = document.getElementById("exercise-history");
-	exerciseHistory.innerHTML = "";
-	for (const date in groupedExerciseHistoryItems) {
-		const header = renderExerciseHistoryHeader(date);
+	const exerciseHistory = document.getElementById('exercise-history');
+	exerciseHistory.innerHTML = '';
+	for (const exercise of groupedExerciseHistoryItems) {
+		const header = renderExerciseHistoryHeader(exercise.key);
 		exerciseHistory.appendChild(header);
-		const exerciseHistoryItemsTableContainer =
-			document.createElement("div");
-		exerciseHistoryItemsTableContainer.id = `date-${impale(date, ".")}`;
+		const exerciseHistoryItemsTableContainer = document.createElement('div');
+		exerciseHistoryItemsTableContainer.id = `date-${impale(exercise.key, '.')}`;
 		exerciseHistoryItemsTableContainer.setAttribute(
-			"aria-labelledby",
-			`date-${impale(date, ".")}-heading`
+			'aria-labelledby',
+			`date-${impale(exercise.key, '.')}-heading`
 		);
-		exerciseHistoryItemsTableContainer.setAttribute(
-			"data-bs-parent",
-			"#exercise-history"
-		);
-		exerciseHistoryItemsTableContainer.classList.add(
-			"accordion-collapse",
-			"collapse",
-			"show"
-		);
-		const exerciseHistoryItems = groupedExerciseHistoryItems[date];
-		const exerciseHistoryItemsTable =
-			renderExerciseHistoryItemsTable(exerciseHistoryItems);
+		exerciseHistoryItemsTableContainer.classList.add('accordion-collapse', 'collapse', 'show');
+		const exerciseHistoryItemsTable = renderExerciseHistoryItemsTable(exercise.value);
 
-		exerciseHistoryItemsTableContainer.appendChild(
-			exerciseHistoryItemsTable
-		);
+		exerciseHistoryItemsTableContainer.appendChild(exerciseHistoryItemsTable);
 		exerciseHistory.appendChild(exerciseHistoryItemsTableContainer);
 	}
 }
 
 function goToPreviousExercise() {
-	const workoutId = getQueryParameterFromUrl("workoutId");
-	const currentExerciseId = getQueryParameterFromUrl("id");
+	const workoutId = getQueryParameterFromUrl('workoutId');
+	const currentExerciseId = getQueryParameterFromUrl('id');
 	const workout = getWorkoutById(workoutId);
 	const currentExercisePosition = workout.exercises.findIndex(
 		(item) => item === currentExerciseId
 	);
 	if (currentExercisePosition > 0) {
-		const previousExerciseId =
-			workout.exercises[currentExercisePosition - 1];
+		const previousExerciseId = workout.exercises[currentExercisePosition - 1];
 		window.location.href = `./exercise.html?id=${previousExerciseId}&workoutId=${workoutId}`;
 	} else {
 		window.location.href = `./workout.html?id=${workoutId}`;
@@ -166,8 +145,8 @@ function goToPreviousExercise() {
 }
 
 function goToNextExercise() {
-	const workoutId = getQueryParameterFromUrl("workoutId");
-	const currentExerciseId = getQueryParameterFromUrl("id");
+	const workoutId = getQueryParameterFromUrl('workoutId');
+	const currentExerciseId = getQueryParameterFromUrl('id');
 	const workout = getWorkoutById(workoutId);
 	const currentExercisePosition = workout.exercises.findIndex(
 		(item) => item === currentExerciseId
@@ -176,25 +155,42 @@ function goToNextExercise() {
 		const nextExerciseId = workout.exercises[currentExercisePosition + 1];
 		window.location.href = `./exercise.html?id=${nextExerciseId}&workoutId=${workoutId}`;
 	} else {
+		workout.lastTraining = Date.now();
+		editWorkout(workout);
 		window.location.href = `./workout.html?id=${workoutId}`;
 	}
 }
 
-window.onload = function setupExercisePage() {
-	const addExerciseHistoryItemButton = document.getElementById(
-		"add-exercise-history-item-button"
-	);
-	const previousExerciseButton = document.getElementById(
-		"previous-exercise-button"
-	);
-	const nextExerciseButton = document.getElementById("next-exercise-button");
+function exercisePosition() {
+	const workoutId = getQueryParameterFromUrl('workoutId');
+	const currentExerciseId = getQueryParameterFromUrl('id');
+	const workout = getWorkoutById(workoutId);
+	return workout.exercises.findIndex((item) => item === currentExerciseId);
+}
 
-	addExerciseHistoryItemButton.addEventListener(
-		"click",
-		saveExerciseHisotryItem
+window.onload = function setupExercisePage() {
+	const workoutId = getQueryParameterFromUrl('workoutId');
+	const currentExerciseId = getQueryParameterFromUrl('id');
+	if (!workoutId || !currentExerciseId) {
+		alert('Nie znalezione treningu lub ćwiczenia');
+		window.location.href = '../index.html';
+	}
+	const addExerciseHistoryItemButton = document.getElementById(
+		'add-exercise-history-item-button'
 	);
-	previousExerciseButton.addEventListener("click", goToPreviousExercise);
-	nextExerciseButton.addEventListener("click", goToNextExercise);
+	const previousExerciseButton = document.getElementById('previous-exercise-button');
+	const nextExerciseButton = document.getElementById('next-exercise-button');
+
+	const currentExercisePosition = exercisePosition();
+	const workout = getWorkoutById(getQueryParameterFromUrl('workoutId'));
+	if (currentExercisePosition === 0) {
+		previousExerciseButton.innerText = 'Powrót do treningu';
+	} else if (currentExercisePosition === workout.exercises.length - 1) {
+		nextExerciseButton.innerText = 'Zakończ trening';
+	}
+
+	previousExerciseButton.addEventListener('click', goToPreviousExercise);
+	nextExerciseButton.addEventListener('click', goToNextExercise);
 
 	renderExerciseHeader();
 	renderExerciseHistory();
