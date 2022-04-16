@@ -5,9 +5,9 @@ export function compareDates(date1, date2, descending = false) {
 	return date1 > date2 ? 1 : -1;
 }
 
-export function groupByProperty(array, property) {
+export function groupByProperty(array, property, transformFunction = (x) => x) {
 	return array.reduce(function (groups, item) {
-		var val = item[property];
+		var val = transformFunction(item[property]);
 		groups[val] = groups[val] || [];
 		groups[val].push(item);
 		return groups;
@@ -18,8 +18,8 @@ export function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export function impale(text) {
-	return text.split(" ").join("-");
+export function impale(text, separator = " ") {
+	return text.split(separator).join("-");
 }
 
 export function getQueryParameterFromUrl(parameter) {
@@ -50,4 +50,8 @@ export function generateUUID() {
 			return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
 		}
 	);
+}
+
+export function toLocaleDateString(date) {
+	return new Date(date).toLocaleDateString();
 }

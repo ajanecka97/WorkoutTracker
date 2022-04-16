@@ -132,7 +132,7 @@ export function setupLocalStorage() {
 }
 
 export function getExercises() {
-	return JSON.parse(localStorage.getItem("exercises"));
+	return JSON.parse(localStorage.getItem("exercises")) ?? [];
 }
 
 export function getExercise(index) {
@@ -145,8 +145,14 @@ export function getExerciseById(id) {
 	);
 }
 
+export function addExercise(exercise) {
+	const exercises = JSON.parse(localStorage.getItem("exercises")) ?? [];
+	exercises.push(exercise);
+	localStorage.setItem("exercises", JSON.stringify(exercises));
+}
+
 export function getWorkouts() {
-	return JSON.parse(localStorage.getItem("workouts"));
+	return JSON.parse(localStorage.getItem("workouts")) ?? [];
 }
 
 export function getWorkout(index) {
@@ -157,4 +163,21 @@ export function getWorkoutById(id) {
 	return JSON.parse(localStorage.getItem("workouts")).find(
 		(workout) => workout.id === id
 	);
+}
+
+export function addWorkout(workout) {
+	const workouts = JSON.parse(localStorage.getItem("workouts")) ?? [];
+	workouts.push(workout);
+	localStorage.setItem("workouts", JSON.stringify(workouts));
+}
+
+export function addExerciseHisotryItem(exerciseHistoryItem) {
+	const exerciseHistory =
+		JSON.parse(localStorage.getItem("exerciseHistory")) ?? [];
+	exerciseHistory.push(exerciseHistoryItem);
+	localStorage.setItem("exerciseHistory", JSON.stringify(exerciseHistory));
+}
+
+export function getExerciseHistoryItems() {
+	return JSON.parse(localStorage.getItem("exerciseHistory")) ?? [];
 }

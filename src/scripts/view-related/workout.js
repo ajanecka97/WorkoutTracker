@@ -1,5 +1,5 @@
 import { getExerciseById, getWorkoutById } from "../store.js";
-import { getQueryParameterFromUrl } from "../utils.js";
+import { getQueryParameterFromUrl, impale } from "../utils.js";
 
 function renderWorkoutTableRow(exercise) {
 	return `
@@ -7,6 +7,15 @@ function renderWorkoutTableRow(exercise) {
             <td>${exercise.name}</td>
             <td>${exercise.pr ?? "-"}</td>
             <td>${calculateTotalWeightOfLastTraining(exercise)}</td>
+            <td>
+                <a id="${impale(exercise.name) + `-button`}"
+                class="btn"
+                href="./exercise.html?id=${
+					exercise.id
+				}&workoutId=${getQueryParameterFromUrl("id")}">
+                    <img src = "../assets/chevron-right.svg"/>
+                </a>
+            </td>
         </tr>
     `;
 }
