@@ -1,3 +1,4 @@
+import { setupTopBar } from '../components/top-bar.js';
 import {
 	addExerciseHisotryItem,
 	getExerciseHistoryItems,
@@ -131,33 +132,33 @@ function renderExerciseHistory() {
 
 function goToPreviousExercise() {
 	const workoutId = getQueryParameterFromUrl('workoutId');
-	const currentExerciseId = getQueryParameterFromUrl('id');
+	const currentExerciseId = getQueryParameterFromUrl('exerciseId');
 	const workout = getWorkoutById(workoutId);
 	const currentExercisePosition = workout.exercises.findIndex(
 		(item) => item === currentExerciseId
 	);
 	if (currentExercisePosition > 0) {
 		const previousExerciseId = workout.exercises[currentExercisePosition - 1];
-		window.location.href = `./exercise.html?id=${previousExerciseId}&workoutId=${workoutId}`;
+		window.location.href = `./exercise.html?exerciseId=${previousExerciseId}&workoutId=${workoutId}`;
 	} else {
-		window.location.href = `./workout.html?id=${workoutId}`;
+		window.location.href = `./workout.html?workoutId=${workoutId}`;
 	}
 }
 
 function goToNextExercise() {
 	const workoutId = getQueryParameterFromUrl('workoutId');
-	const currentExerciseId = getQueryParameterFromUrl('id');
+	const currentExerciseId = getQueryParameterFromUrl('exerciseId');
 	const workout = getWorkoutById(workoutId);
 	const currentExercisePosition = workout.exercises.findIndex(
 		(item) => item === currentExerciseId
 	);
 	if (currentExercisePosition < workout.exercises.length - 1) {
 		const nextExerciseId = workout.exercises[currentExercisePosition + 1];
-		window.location.href = `./exercise.html?id=${nextExerciseId}&workoutId=${workoutId}`;
+		window.location.href = `./exercise.html?exerciseId=${nextExerciseId}&workoutId=${workoutId}`;
 	} else {
 		workout.lastTraining = Date.now();
 		editWorkout(workout);
-		window.location.href = `./workout.html?id=${workoutId}`;
+		window.location.href = `./workout.html?workoutId=${workoutId}`;
 	}
 }
 
@@ -169,8 +170,10 @@ function exercisePosition() {
 }
 
 window.onload = function setupExercisePage() {
+	setupTopBar();
+
 	const workoutId = getQueryParameterFromUrl('workoutId');
-	const currentExerciseId = getQueryParameterFromUrl('id');
+	const currentExerciseId = getQueryParameterFromUrl('exerciseId');
 	if (!workoutId || !currentExerciseId) {
 		alert('Nie znalezione treningu lub ćwiczenia');
 		window.location.href = '../index.html';

@@ -1,4 +1,4 @@
-import { compareDates, compareDatesFromStrings, impale, toLocaleDateString } from '../utils.js';
+import { compareDatesFromStrings, impale, toLocaleDateString } from '../utils.js';
 import { getWorkouts, setupLocalStorage } from '../store.js';
 import { setupTopBar } from '../components/top-bar.js';
 
@@ -11,7 +11,7 @@ function renderWorkoutTableRow(workout) {
 		<td>
 			<a id="${impale(workout.name) + `-button`}"
 			 class="btn"
-			 href="./pages/workout.html?id=${workout.id}">
+			 href="./pages/workout.html?workoutId=${workout.id}">
 			 	<img src = "./assets/chevron-right.svg"/>
 			</a>
 		</td>

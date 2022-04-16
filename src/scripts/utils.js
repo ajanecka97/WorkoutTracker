@@ -106,3 +106,7 @@ export function toLocaleDateString(date) {
 	if (!date) return '-';
 	return new Date(date).toLocaleDateString();
 }
+
+export function getCurrentFileName() {
+	return window.location.pathname.split('/').pop();
+}

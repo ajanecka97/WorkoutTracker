@@ -1,8 +1,11 @@
 {
 	"scripts": {
-		"start": "http-server ./src"
+		"start": "http-server ./src -c-1",
+		"serve": "http-server ./src -c-1",
+		"serve:dev": "live-server ./src"
 	},
 	"dependencies": {
-		"http-server": "^14.1.0"
+		"http-server": "^14.1.0",
+		"live-server": "^1.1.0"
 	}
 }

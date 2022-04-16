@@ -1,39 +1,105 @@
-function generateBreadcrumbs(basePath) {
+import { getCurrentFileName, getQueryParameterFromUrl } from '../utils.js';
+import { getWorkoutById, getExerciseById } from '../store.js';
+
+function generateBreadcrumbs() {
 	const breadcrumbs = document.createElement('nav');
 	breadcrumbs.setAttribute('aria-label', 'breadcrumb');
 	const breadcrumbList = document.createElement('ol');
 	breadcrumbList.classList.add('breadcrumb');
 
-	const home = document.createElement('li');
-	home.classList.add('breadcrumb-item');
-	const homeLink = document.createElement('a');
-	homeLink.href = `${basePath}/index.html`;
-	homeLink.innerText = 'Treningi';
-	home.appendChild(homeLink);
-	breadcrumbList.appendChild(home);
-
-	const workoutId = getQueryParameterFromUrl('workoutId');
-	if (workoutId) {
-		homeLink.classList.add('active');
-		const workout = getWorkoutById(workoutId);
-		const workoutName = workout.name;
-		const workoutNameElement = document.createElement('li');
-		workoutNameElement.classList.add('breadcrumb-item');
-		workoutNameElement.innerText = workoutName;
-		workoutLink = document.createElement('a');
-		workoutLink.href = `${basePath}/workout.html?id=${workoutId}`;
-		breadcrumbList.appendChild(workoutNameElement);
+	switch (getCurrentFileName()) {
+		case '':
+			breadcrumbList.appendChild(setupHomeElement(true));
+			break;
+		case 'workout.html':
+			breadcrumbList.appendChild(setupHomeElement(false));
+			breadcrumbList.appendChild(setupWorkoutElement(true));
+			break;
+		case 'exercise.html':
+			breadcrumbList.appendChild(setupHomeElement(false));
+			breadcrumbList.appendChild(setupWorkoutElement(false));
+			breadcrumbList.appendChild(setupExerciseElement(true));
+			break;
+		case 'add-workout.html':
+			breadcrumbList.appendChild(setupHomeElement(false));
+			breadcrumbList.appendChild(setupAddWorkoutElement(true));
+			break;
+		default:
+			break;
 	}
+
+	breadcrumbs.appendChild(breadcrumbList);
+	return breadcrumbs;
 }
 
-function getBasePath() {
-	const basePath = window.location.href.split('/').slice(0, -1).join('/');
-	console.log(basePath);
-	return basePath;
+function setupHomeElement(active) {
+	const home = document.createElement('li');
+	home.classList.add('breadcrumb-item');
+	if (active) {
+		home.classList.add('active');
+		home.innerText = 'Treningi';
+	} else {
+		const homeLink = document.createElement('a');
+		homeLink.href = `/`;
+		homeLink.innerText = 'Treningi';
+		home.appendChild(homeLink);
+	}
+	return home;
+}
+
+function setupWorkoutElement(active) {
+	const workoutId = getQueryParameterFromUrl('workoutId');
+	const workout = getWorkoutById(workoutId);
+	const workoutName = workout.name;
+	const workoutElement = document.createElement('li');
+	workoutElement.classList.add('breadcrumb-item');
+	if (active) {
+		workoutElement.classList.add('active');
+		workoutElement.innerText = workoutName;
+	} else {
+		const workoutLink = document.createElement('a');
+		workoutLink.href = `/pages/workout.html?workoutId=${workoutId}`;
+		workoutLink.innerText = workoutName;
+		workoutElement.appendChild(workoutLink);
+	}
+	return workoutElement;
+}
+
+function setupExerciseElement(active) {
+	const exerciseId = getQueryParameterFromUrl('exerciseId');
+	const workoutId = getQueryParameterFromUrl('workoutId');
+	const exercise = getExerciseById(exerciseId);
+	const exerciseName = exercise.name;
+	const exerciseElement = document.createElement('li');
+	exerciseElement.classList.add('breadcrumb-item');
+	if (active) {
+		exerciseElement.classList.add('active');
+		exerciseElement.innerText = exerciseName;
+	} else {
+		const exerciseLink = document.createElement('a');
+		exerciseLink.href = `/pages/exercise.html?exerciseId=${exerciseId}&workoutId=${workoutId}`;
+		exerciseLink.innerText = exerciseName;
+		exerciseElement.appendChild(exerciseLink);
+	}
+	return exerciseElement;
+}
+
+function setupAddWorkoutElement(active) {
+	const addWorkoutElement = document.createElement('li');
+	addWorkoutElement.classList.add('breadcrumb-item');
+	if (active) {
+		addWorkoutElement.classList.add('active');
+		addWorkoutElement.innerText = 'Dodaj trening';
+	} else {
+		const addWorkoutLink = document.createElement('a');
+		addWorkoutLink.href = `/pages/add-workout.html`;
+		addWorkoutLink.innerText = 'Dodaj trening';
+		addWorkoutElement.appendChild(addWorkoutLink);
+	}
+	return addWorkoutElement;
 }
 
 export function setupTopBar() {
 	const topBar = document.getElementById('top-bar');
-	const inxexPath = getBasePath();
-	const basePath = getBasePath();
+	topBar.appendChild(generateBreadcrumbs());
 }

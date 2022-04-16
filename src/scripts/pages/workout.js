@@ -11,9 +11,9 @@ function renderWorkoutTableRow(exercise) {
             <td>
                 <a id="${impale(exercise.name) + `-button`}"
                 class="btn"
-                href="./exercise.html?id=${exercise.id}&workoutId=${getQueryParameterFromUrl(
-		'id'
-	)}">
+                href="./exercise.html?exerciseId=${
+					exercise.id
+				}&workoutId=${getQueryParameterFromUrl('workoutId')}">
                     <img src = "../assets/chevron-right.svg"/>
                 </a>
             </td>
@@ -36,7 +36,7 @@ function calculateTotalWeightOfLastTraining(exercise) {
 window.onload = function setupWorkoutTable() {
 	setupTopBar();
 
-	const workoutId = getQueryParameterFromUrl('id');
+	const workoutId = getQueryParameterFromUrl('workoutId');
 	const workout = getWorkoutById(workoutId);
 	const exercises = workout.exercises.map(getExerciseById);
 	renderWorkoutTable(exercises);
