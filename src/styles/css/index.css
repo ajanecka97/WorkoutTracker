@@ -1,0 +1,110 @@
+.c-table {
+  width: 100%;
+  border-spacing: 2px;
+  border: none;
+}
+.c-table__header {
+  font-weight: bold;
+  text-align: left;
+  padding: 0.5rem;
+  background-color: #b1cbd1;
+  color: #1c3439;
+  border: none;
+}
+.c-table__header tr th:first-child {
+  border-top-left-radius: 20px;
+}
+.c-table__header tr th:last-child {
+  border-top-right-radius: 20px;
+}
+.c-table__row {
+  padding: 0.5rem;
+  background-color: #2d3132;
+  color: #e1e3e3;
+  border: none;
+}
+.c-table__row:nth-child(even) {
+  background-color: #383c3d;
+}
+.c-table__row:last-child td:first-child {
+  border-bottom-left-radius: 20px;
+}
+.c-table__row:last-child td:last-child {
+  border-bottom-right-radius: 20px;
+}
+.c-table__cell {
+  padding: 0.5rem;
+  text-align: center;
+  position: relative;
+}
+.c-table__cell:first-child {
+  text-align: left;
+}
+.c-table__cell:last-child {
+  text-align: right;
+}
+.c-table .button-container .btn {
+  height: 50px;
+  width: 50px;
+  background-color: #899294;
+  color: #1c3439;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c-table .button-container .btn svg {
+  fill: currentColor;
+}
+.c-table .button-container .btn img {
+  color: white !important;
+}
+@media (max-width: 575px) {
+  .c-table__row td {
+    padding: 10px;
+    height: 100%;
+  }
+  .c-table__row td .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .c-table__row:first-child td:first-child {
+    border-top-left-radius: 20px;
+  }
+  .c-table__row:first-child td:last-child {
+    border-top-right-radius: 20px;
+  }
+  .c-table__cell {
+    padding: 0.25rem;
+  }
+}
+
+html {
+  height: 100vh;
+}
+html body {
+  height: 100vh;
+  background-color: #191c1d;
+  color: #e1e3e3;
+}
+html svg {
+  fill: currentColor;
+}
+html .navbar {
+  background-color: #51d8ee;
+  color: #00363e;
+  padding: 5px;
+}
+@media (max-width: 575px) {
+  html .navbar {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/*# sourceMappingURL=index.css.map */

@@ -1,11 +1,13 @@
 {
 	"scripts": {
-		"start": "http-server ./src -c-1",
-		"serve": "http-server ./src -c-1",
-		"serve:dev": "live-server ./src"
+		"start": "http-server ./src",
+		"serve": "http-server ./src",
+		"serve:dev": "live-server ./src",
+		"sass": "sass src/styles/scss:src/styles/css"
 	},
 	"dependencies": {
 		"http-server": "^14.1.0",
-		"live-server": "^1.1.0"
+		"live-server": "^1.1.0",
+		"sass": "^1.50.0"
 	}
 }

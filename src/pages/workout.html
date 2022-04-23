@@ -10,6 +10,7 @@
 			integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 			crossorigin="anonymous"
 		/>
+		<link href="../styles/css/index.css" rel="stylesheet" />
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -18,17 +19,16 @@
 		<script src="../scripts/pages/workout.js" type="module"></script>
 	</head>
 	<body>
-		<nav id="top-bar"></nav>
-		<div class="container">
-			<table class="table table-primary">
-				<thead>
-					<th scope="col">Nazwa ćwiczenia</th>
-					<th scope="col">PR</th>
-					<th scope="col">Ostatni trening</th>
-					<th scope="col"></th>
-				</thead>
-				<tbody id="workout-table-body"></tbody>
-			</table>
+		<div class="container-fluid p-0 d-flex flex-column h-100">
+			<nav class="navbar">
+				<div class="navbar-container">
+					<div class="navbar-brand d-inline-block">GymBuddy</div>
+					<div id="top-bar" class="d-none d-sm-inline-block"></div>
+				</div>
+			</nav>
+			<div class="container mt-3 flex-fill">
+				<table id="workout-table" class="c-table"></table>
+			</div>
 		</div>
 	</body>
 </html>

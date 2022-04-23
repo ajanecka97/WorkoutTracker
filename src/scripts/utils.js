@@ -86,19 +86,12 @@ export function sortByProperty(
 	descending = false
 ) {
 	const returnArtray = array.sort((a, b) => {
-		console.log(
-			a[property],
-			b[property],
-			transformFunction(a[property]),
-			transformFunction(b[property])
-		);
 		return sortFunction(
 			transformFunction(a[property]),
 			transformFunction(b[property]),
 			descending
 		);
 	});
-	console.log(returnArtray);
 	return returnArtray;
 }
 

@@ -1,29 +1,35 @@
 import { setupTopBar } from '../components/top-bar.js';
 import { getExerciseById, getWorkoutById } from '../store.js';
 import { getQueryParameterFromUrl, impale } from '../utils.js';
+import { setupTableRenderListener } from '../components/table.js';
 
-function renderWorkoutTableRow(exercise) {
-	return `
-        <tr>
-            <td>${exercise.name}</td>
-            <td>${exercise.pr ?? '-'}</td>
-            <td>${calculateTotalWeightOfLastTraining(exercise)}</td>
-            <td>
-                <a id="${impale(exercise.name) + `-button`}"
-                class="btn"
-                href="./exercise.html?exerciseId=${
-					exercise.id
-				}&workoutId=${getQueryParameterFromUrl('workoutId')}">
-                    <img src = "../assets/chevron-right.svg"/>
-                </a>
-            </td>
-        </tr>
-    `;
+function setupWorkoutTableRow(exercises) {
+	return exercises.map((exercise) => [
+		exercise.name,
+		exercise.pr ?? '-',
+		calculateTotalWeightOfLastTraining(exercise),
+	]);
+}
+
+function setupActionButtons(exercises) {
+	const actionButtons = exercises.map((exercise) => {
+		const goToExerciseButton = document.createElement('a');
+		goToExerciseButton.classList.add('btn');
+		goToExerciseButton.innerHTML = `<img src = "../assets/chevron-right.svg"/>`;
+		goToExerciseButton.href = `./exercise.html?exerciseId=${
+			exercise.id
+		}&workoutId=${getQueryParameterFromUrl('workoutId')}`;
+		return [goToExerciseButton];
+	});
+	return actionButtons;
 }
 
 function renderWorkoutTable(exercises) {
-	let table = document.getElementById('workout-table-body');
-	table.innerHTML = exercises.map(renderWorkoutTableRow).join('');
+	let table = document.getElementById('workout-table');
+	const headers = ['Nazwa ćwiczenia', 'PR', 'Ostatni trening'];
+	const rows = setupWorkoutTableRow(exercises);
+	const actionButtons = setupActionButtons(exercises);
+	setupTableRenderListener(table, headers, rows, actionButtons);
 }
 
 function calculateTotalWeightOfLastTraining(exercise) {

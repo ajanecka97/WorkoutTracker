@@ -1,0 +1,25 @@
+@use 'variables' as v;
+@use './components/table.scss';
+
+html {
+	height: 100vh;
+	body {
+		height: 100vh;
+		background-color: v.$color-background;
+		color: v.$color-background--text;
+	}
+	svg {
+		fill: currentColor;
+	}
+
+	.navbar {
+		background-color: v.$color-primary;
+		color: v.$color-primary--text;
+		padding: 5px;
+
+		@media (max-width: 575px) {
+			display: flex;
+			justify-content: center;
+		}
+	}
+}

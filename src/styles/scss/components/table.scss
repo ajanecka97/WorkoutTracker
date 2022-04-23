@@ -1,0 +1,110 @@
+@use '../variables' as v;
+
+.c-table {
+	width: 100%;
+	border-spacing: 2px;
+	border: none;
+
+	&__header {
+		font-weight: bold;
+		text-align: left;
+		padding: 0.5rem;
+		background-color: v.$color-secondary;
+		color: v.$color-secondary--text;
+		border: none;
+
+		tr {
+			th:first-child {
+				border-top-left-radius: 20px;
+			}
+			th:last-child {
+				border-top-right-radius: 20px;
+			}
+		}
+	}
+
+	&__row {
+		padding: 0.5rem;
+		background-color: v.$color-surface;
+		color: v.$color-surface--text;
+		border: none;
+
+		&:nth-child(even) {
+			background-color: v.$color-surface-2;
+		}
+
+		&:last-child {
+			td:first-child {
+				border-bottom-left-radius: 20px;
+			}
+			td:last-child {
+				border-bottom-right-radius: 20px;
+			}
+		}
+	}
+
+	&__cell {
+		padding: 0.5rem;
+		text-align: center;
+		position: relative;
+
+		&:first-child {
+			text-align: left;
+		}
+
+		&:last-child {
+			text-align: right;
+		}
+	}
+
+	.button-container .btn {
+		height: 50px;
+		width: 50px;
+		background-color: v.$color-outline;
+		color: v.$color-secondary--text;
+		height: 50px;
+		border-radius: 50%;
+		border: none;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			fill: currentColor;
+		}
+
+		img {
+			color: white !important;
+		}
+	}
+
+	@media (max-width: 575px) {
+		&__row {
+			td {
+				padding: 10px;
+				height: 100%;
+
+				.button-container {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+				}
+			}
+
+			&:first-child {
+				td:first-child {
+					border-top-left-radius: 20px;
+				}
+				td:last-child {
+					border-top-right-radius: 20px;
+				}
+			}
+		}
+
+		&__cell {
+			padding: 0.25rem;
+		}
+	}
+}
