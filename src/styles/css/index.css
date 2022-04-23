@@ -92,18 +92,27 @@ html body {
   background-color: #191c1d;
   color: #e1e3e3;
 }
-html svg {
+html body svg {
   fill: currentColor;
 }
-html .navbar {
+html body .navbar {
   background-color: #51d8ee;
   color: #00363e;
   padding: 5px;
 }
 @media (max-width: 575px) {
-  html .navbar {
+  html body .navbar {
     display: flex;
     justify-content: center;
+  }
+}
+html body .footer {
+  background-color: #191c1d;
+  color: #e1e3e3;
+}
+@media (max-width: 575px) {
+  html body .footer .btn {
+    width: 100%;
   }
 }
 

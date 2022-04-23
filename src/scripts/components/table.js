@@ -18,7 +18,7 @@ export function renderHeader(table, columns, hasActionButtons) {
 	table.appendChild(thead);
 }
 
-export function renderRow(table, row, actionButtonsGroup) {
+export function renderRow(table, row, actionButtonsGroup = []) {
 	const tr = document.createElement('tr');
 	tr.classList.add('c-table__row');
 	row.forEach((cell) => {
@@ -38,7 +38,7 @@ export function renderRow(table, row, actionButtonsGroup) {
 	table.appendChild(tr);
 }
 
-export function renderRowMobile(table, headers, row, actionButtonsGroup) {
+export function renderRowMobile(table, headers, row, actionButtonsGroup = []) {
 	const tr = document.createElement('tr');
 	const td = document.createElement('td');
 	tr.classList.add('c-table__row');

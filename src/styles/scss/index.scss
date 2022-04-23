@@ -7,19 +7,30 @@ html {
 		height: 100vh;
 		background-color: v.$color-background;
 		color: v.$color-background--text;
-	}
-	svg {
-		fill: currentColor;
-	}
+		svg {
+			fill: currentColor;
+		}
 
-	.navbar {
-		background-color: v.$color-primary;
-		color: v.$color-primary--text;
-		padding: 5px;
+		.navbar {
+			background-color: v.$color-primary;
+			color: v.$color-primary--text;
+			padding: 5px;
 
-		@media (max-width: 575px) {
-			display: flex;
-			justify-content: center;
+			@media (max-width: 575px) {
+				display: flex;
+				justify-content: center;
+			}
+		}
+
+		.footer {
+			background-color: v.$color-background;
+			color: v.$color-background--text;
+
+			@media (max-width: 575px) {
+				.btn {
+					width: 100%;
+				}
+			}
 		}
 	}
 }

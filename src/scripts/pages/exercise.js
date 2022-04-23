@@ -1,3 +1,4 @@
+import { setupTableRenderListener } from '../components/table.js';
 import { setupTopBar } from '../components/top-bar.js';
 import {
 	addExerciseHisotryItem,
@@ -14,8 +15,7 @@ import {
 	compareDatesFromStrings,
 } from '../utils.js';
 
-function saveExerciseHisotryItem(event) {
-	event.preventDefault();
+function saveExerciseHisotryItem() {
 	const exerciseRepsInput = document.getElementById('exercise-reps');
 	const exerciseWeightInput = document.getElementById('exercise-weight');
 
@@ -49,7 +49,7 @@ function groupExerciseHistoryItemsByDate() {
 }
 
 function renderExerciseHeader() {
-	const exercise = getExerciseById(getQueryParameterFromUrl('id'));
+	const exercise = getExerciseById(getQueryParameterFromUrl('exerciseId'));
 
 	const exerciseHeader = document.getElementById('exercise-header');
 	exerciseHeader.innerHTML = `
@@ -75,37 +75,44 @@ function renderExerciseHistoryHeader(date) {
 	return header;
 }
 
-function renderExerciseHistoryItemsTableHeader() {
-	const tableHeader = document.createElement('tr');
-	tableHeader.innerHTML = `
-        <th>Data</th>
-        <th>Liczba powtórzeń</th>
-        <th>Waga</th>
-    `;
-	return tableHeader;
-}
+// function renderExerciseHistoryItemsTableHeader() {
+// 	const tableHeader = document.createElement('tr');
+// 	tableHeader.innerHTML = `
+//         <th>Data</th>
+//         <th>Liczba powtórzeń</th>
+//         <th>Waga</th>
+//     `;
+// 	return tableHeader;
+// }
 
-function renderExerciseHistoryItemsTableBody(exerciseHistoryItems) {
-	const tableBody = document.createElement('tbody');
-	exerciseHistoryItems.forEach((exerciseHistoryItem) => {
-		const tableRow = document.createElement('tr');
-		tableRow.innerHTML = `
-            <td>${new Date(exerciseHistoryItem.date).toLocaleTimeString()}</td>
-            <td>${exerciseHistoryItem.reps}</td>
-            <td>${exerciseHistoryItem.weight}</td>
-        `;
-		tableBody.appendChild(tableRow);
-	});
-	return tableBody;
+// function renderExerciseHistoryItemsTableBody(exerciseHistoryItems) {
+// 	const tableBody = document.createElement('tbody');
+// 	exerciseHistoryItems.forEach((exerciseHistoryItem) => {
+// 		const tableRow = document.createElement('tr');
+// 		tableRow.innerHTML = `
+//             <td>${new Date(exerciseHistoryItem.date).toLocaleTimeString()}</td>
+//             <td>${exerciseHistoryItem.reps}</td>
+//             <td>${exerciseHistoryItem.weight}</td>
+//         `;
+// 		tableBody.appendChild(tableRow);
+// 	});
+// 	return tableBody;
+// }
+
+function setupTableRows(exerciseHistoryItems) {
+	return exerciseHistoryItems.map((item) => [
+		new Date(item.date).toLocaleTimeString(),
+		item.reps,
+		item.weight,
+	]);
 }
 
 function renderExerciseHistoryItemsTable(exerciseHistoryItems) {
 	const exerciseHistoryItemsTable = document.createElement('table');
-	exerciseHistoryItemsTable.classList.add('accordion-body', 'table', 'table-striped', 'my-2');
-	exerciseHistoryItemsTable.appendChild(renderExerciseHistoryItemsTableHeader());
-	exerciseHistoryItemsTable.appendChild(
-		renderExerciseHistoryItemsTableBody(exerciseHistoryItems)
-	);
+	exerciseHistoryItemsTable.classList.add('accordion-body', 'c-table', 'my-2');
+	const headers = ['Data', 'Liczba powtórzeń', 'Waga'];
+	const rows = setupTableRows(exerciseHistoryItems);
+	setupTableRenderListener(exerciseHistoryItemsTable, headers, rows);
 	return exerciseHistoryItemsTable;
 }
 
@@ -146,6 +153,7 @@ function goToPreviousExercise() {
 }
 
 function goToNextExercise() {
+	console.log('next');
 	const workoutId = getQueryParameterFromUrl('workoutId');
 	const currentExerciseId = getQueryParameterFromUrl('exerciseId');
 	const workout = getWorkoutById(workoutId);
@@ -164,7 +172,7 @@ function goToNextExercise() {
 
 function exercisePosition() {
 	const workoutId = getQueryParameterFromUrl('workoutId');
-	const currentExerciseId = getQueryParameterFromUrl('id');
+	const currentExerciseId = getQueryParameterFromUrl('exerciseId');
 	const workout = getWorkoutById(workoutId);
 	return workout.exercises.findIndex((item) => item === currentExerciseId);
 }
@@ -181,19 +189,28 @@ window.onload = function setupExercisePage() {
 	const addExerciseHistoryItemButton = document.getElementById(
 		'add-exercise-history-item-button'
 	);
+
 	const previousExerciseButton = document.getElementById('previous-exercise-button');
 	const nextExerciseButton = document.getElementById('next-exercise-button');
+	const previousExerciseButtonMobile = document.getElementById('previous-exercise-button-mobile');
+	const nextExerciseButtonMobile = document.getElementById('next-exercise-button-mobile');
 
 	const currentExercisePosition = exercisePosition();
 	const workout = getWorkoutById(getQueryParameterFromUrl('workoutId'));
+	console.log(currentExercisePosition);
 	if (currentExercisePosition === 0) {
 		previousExerciseButton.innerText = 'Powrót do treningu';
+		previousExerciseButtonMobile.innerText = 'Powrót';
 	} else if (currentExercisePosition === workout.exercises.length - 1) {
 		nextExerciseButton.innerText = 'Zakończ trening';
+		nextExerciseButtonMobile.innerText = 'Zakończ trening';
 	}
 
 	previousExerciseButton.addEventListener('click', goToPreviousExercise);
 	nextExerciseButton.addEventListener('click', goToNextExercise);
+	previousExerciseButtonMobile.addEventListener('click', goToPreviousExercise);
+	nextExerciseButtonMobile.addEventListener('click', goToNextExercise);
+	addExerciseHistoryItemButton.addEventListener('click', saveExerciseHisotryItem);
 
 	renderExerciseHeader();
 	renderExerciseHistory();
