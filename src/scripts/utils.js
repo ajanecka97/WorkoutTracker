@@ -100,6 +100,10 @@ export function toLocaleDateString(date) {
 	return new Date(date).toLocaleDateString();
 }
 
+export function toLowerCase(string) {
+	return string.toLowerCase();
+}
+
 export function getCurrentFileName() {
 	return window.location.pathname.split('/').pop();
 }

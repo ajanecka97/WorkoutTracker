@@ -1,7 +1,7 @@
 import { setupTopBar } from '../components/top-bar.js';
 import { renderWorkoutModal } from '../components/workout-modal.js';
 import { getExercises } from '../store.js';
-import { capitalizeFirstLetter, groupByProperty, impale } from '../utils.js';
+import { capitalizeFirstLetter, groupByProperty, impale, toLowerCase } from '../utils.js';
 
 function renderCategory(category) {
 	var categoryElement = document.createElement('div');
@@ -22,8 +22,7 @@ function rendeExerciseCard(exercise) {
 	card.classList.add('p-4', 'exercise-card');
 	card.innerHTML = `
 		<h3>${capitalizeFirstLetter(exercise.name)}</h3>
-		<p>${exercise.description}</p>
-		<p>Rekomendowana liczba powtórzeń: ${exercise.recommendedRepetitions}</p>
+		<p>Rekomendowana liczba powtórzeń: ${exercise.recommendedRepetitions ?? '-'}</p>
 		`;
 	card.exercise = exercise;
 	card.addEventListener('click', selectCard);
@@ -34,7 +33,7 @@ function rendeExerciseCard(exercise) {
 function renderExerciseList(exercises) {
 	var exerciseList = document.getElementById('exercise-list');
 	exerciseList.innerHTML = '';
-	const exercisesGroupedByCategory = groupByProperty(exercises, 'category');
+	const exercisesGroupedByCategory = groupByProperty(exercises, 'category', toLowerCase);
 	for (let category in exercisesGroupedByCategory) {
 		let categoryElement = renderCategory(category);
 		exerciseList.appendChild(categoryElement);
