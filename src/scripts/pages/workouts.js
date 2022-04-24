@@ -24,7 +24,7 @@ function setupTableRows(workouts) {
 
 function renderWorkoutTable(workouts) {
 	let table = document.getElementById('workouts-table');
-	const headers = ['Name', 'Exercises', 'Last Training'];
+	const headers = ['Nazwa', 'Liczba ćwiczeń', 'Ostatni trening'];
 	const rows = setupTableRows(workouts);
 	const actionButtons = setupActionButtons(workouts);
 	setupTableRenderListener(table, headers, rows, actionButtons);

@@ -20,7 +20,9 @@
 	</head>
 	<body>
 		<div class="container-fluid p-0 d-flex flex-column h-100">
-			<nav class="navbar justify-content-between d-sm-block">
+			<nav
+				class="navbar justify-content-between d-sm-block position-fixed top-0 start-50 translate-middle-x w-100"
+			>
 				<div class="d-sm-none">
 					<a href="../index.html" class="icon-navigation">
 						<img src="../assets/home.svg" alt="home" />
@@ -32,7 +34,7 @@
 				<!-- spacer -->
 				<div class="d-sm-none" style="width: 26px"></div>
 			</nav>
-			<div class="container">
+			<div class="container main-container">
 				<div class="row d-none d-sm-block">
 					<div class="col-md-12">
 						<h1>Dodaj trening</h1>
@@ -47,7 +49,7 @@
 									type="text"
 									class="form-control"
 									id="search-exercise"
-									placeholder="Nazwa treningu"
+									placeholder="Nazwa ćwiczenia"
 								/>
 							</div>
 							<div id="exercise-list" class="accordion mb-5"></div>

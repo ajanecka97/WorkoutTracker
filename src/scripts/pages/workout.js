@@ -5,6 +5,7 @@ import {
 	groupByPropertySorted,
 	compareDatesFromStrings,
 	toLocaleDateString,
+	truncate,
 } from '../utils.js';
 import { setupTableRenderListener } from '../components/table.js';
 
@@ -31,7 +32,7 @@ function setupActionButtons(exercises) {
 
 function renderWorkoutTable(exercises) {
 	let table = document.getElementById('workout-table');
-	const headers = ['Nazwa ćwiczenia', 'PR', 'Ostatni trening'];
+	const headers = ['Nazwa ćwiczenia', 'Rekord', 'Ostatni trening'];
 	const rows = setupWorkoutTableRow(exercises);
 	const actionButtons = setupActionButtons(exercises);
 	setupTableRenderListener(table, headers, rows, actionButtons);
@@ -63,6 +64,6 @@ window.onload = function setupWorkoutTable() {
 	const exercises = workout.exercises.map(getExerciseById);
 
 	const workoutMobileHeader = document.getElementById('workout-mobile-header');
-	workoutMobileHeader.innerText = workout.name;
+	workoutMobileHeader.innerText = truncate(workout.name, 20);
 	renderWorkoutTable(exercises);
 };

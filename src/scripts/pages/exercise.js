@@ -14,6 +14,7 @@ import {
 	impale,
 	groupByPropertySorted,
 	compareDatesFromStrings,
+	truncate,
 } from '../utils.js';
 
 function saveExerciseHisotryItem() {
@@ -67,7 +68,7 @@ function renderExerciseHeader() {
     `;
 
 	const exerciseMobileHeader = document.getElementById('exercise-mobile-header');
-	exerciseMobileHeader.innerText = `${exercise.name}`;
+	exerciseMobileHeader.innerText = `${truncate(exercise.name, 20)}`;
 }
 
 function renderExerciseHistoryHeader(date) {
@@ -141,7 +142,6 @@ function goToPreviousExercise() {
 }
 
 function goToNextExercise() {
-	console.log('next');
 	const workoutId = getQueryParameterFromUrl('workoutId');
 	const currentExerciseId = getQueryParameterFromUrl('exerciseId');
 	const workout = getWorkoutById(workoutId);
@@ -184,7 +184,6 @@ window.onload = function setupExercisePage() {
 
 	const currentExercisePosition = exercisePosition();
 	const workout = getWorkoutById(getQueryParameterFromUrl('workoutId'));
-	console.log(currentExercisePosition);
 	if (currentExercisePosition === 0) {
 		previousExerciseButton.innerText = 'Powrót';
 	} else if (currentExercisePosition === workout.exercises.length - 1) {

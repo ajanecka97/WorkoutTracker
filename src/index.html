@@ -15,23 +15,21 @@
 	</head>
 	<body>
 		<div class="container-fluid p-0 d-flex flex-column h-100">
-			<nav class="navbar">
+			<nav class="navbar position-fixed top-0 start-50 translate-middle-x w-100">
 				<div class="navbar-container">
 					<div class="navbar-brand d-inline-block">GymBuddy</div>
 					<div id="top-bar" class="d-none d-sm-inline-block"></div>
 				</div>
 			</nav>
-			<div class="container mt-3 flex-fill">
+			<div class="container main-container flex-fill">
 				<div class="c-table-wrapper">
 					<table id="workouts-table" class="c-table"></table>
 				</div>
 			</div>
-			<div
-				class="d-sm-none container position-fixed bottom-0 start-50 translate-middle-x footer"
-			>
-				<div class="row justify-content-between py-2">
-					<div class="col">
-						<a class="btn btn-primary my-2" href="pages/add-workout.html">
+			<div class="container position-fixed bottom-0 start-50 translate-middle-x footer">
+				<div class="row justify-content-end py-2">
+					<div class="col col-sm-5 col-lg-3">
+						<a class="btn btn-secondary my-2 w-100" href="pages/add-workout.html">
 							Dodaj nowy trening
 						</a>
 					</div>

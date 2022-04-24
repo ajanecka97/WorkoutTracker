@@ -20,7 +20,9 @@
 	</head>
 	<body>
 		<div class="container-fluid p-0 d-flex flex-column h-100">
-			<nav class="navbar justify-content-between d-sm-block">
+			<nav
+				class="navbar justify-content-between d-sm-block position-fixed top-0 start-50 translate-middle-x w-100"
+			>
 				<div class="d-sm-none">
 					<a href="../index.html" class="icon-navigation">
 						<img src="../assets/home.svg" alt="home" />
@@ -35,7 +37,7 @@
 				<!-- spacer -->
 				<div class="d-sm-none" style="width: 50px"></div>
 			</nav>
-			<div class="container my-3 flex-fill">
+			<div class="container flex-fill main-container">
 				<div class="row">
 					<div id="exercise-header" class="col-12 d-none d-sm-block"></div>
 				</div>
@@ -54,10 +56,10 @@
 								rows="3"
 							/>
 						</div>
-						<div class="row my-2">
-							<div class="col">
+						<div class="row justify-content-sm-end my-2">
+							<div class="col col-sm-2">
 								<button
-									class="btn btn-primary"
+									class="btn btn-primary w-100"
 									id="add-exercise-history-item-button"
 								>
 									Zapisz
@@ -75,13 +77,21 @@
 			</div>
 			<div class="container position-fixed bottom-0 start-50 translate-middle-x footer">
 				<div class="row justify-content-between py-2">
-					<div class="col">
-						<button type="button" class="btn btn-primary" id="previous-exercise-button">
+					<div class="col col-sm-2">
+						<button
+							type="button"
+							class="btn btn-secondary w-100"
+							id="previous-exercise-button"
+						>
 							Poprzednie
 						</button>
 					</div>
-					<div class="col text-end">
-						<button type="button" class="btn btn-primary" id="next-exercise-button">
+					<div class="col col-sm-2 text-end">
+						<button
+							type="button"
+							class="btn btn-secondary w-100"
+							id="next-exercise-button"
+						>
 							Następne
 						</button>
 					</div>

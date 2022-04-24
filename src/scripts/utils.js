@@ -107,3 +107,10 @@ export function toLowerCase(string) {
 export function getCurrentFileName() {
 	return window.location.pathname.split('/').pop();
 }
+
+export function truncate(string, length) {
+	if (string.length > length) {
+		return string.substring(0, length) + '...';
+	}
+	return string;
+}

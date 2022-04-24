@@ -24,6 +24,10 @@ function generateBreadcrumbs() {
 			breadcrumbList.appendChild(setupHomeElement(false));
 			breadcrumbList.appendChild(setupAddWorkoutElement(true));
 			break;
+		case 'add-exercise.html':
+			breadcrumbList.appendChild(setupHomeElement(false));
+			breadcrumbList.appendChild(setupAddWorkoutElement(false));
+			breadcrumbList.appendChild(setupAddExerciseElement(true));
 		default:
 			break;
 	}
@@ -97,6 +101,21 @@ function setupAddWorkoutElement(active) {
 		addWorkoutElement.appendChild(addWorkoutLink);
 	}
 	return addWorkoutElement;
+}
+
+function setupAddExerciseElement(active) {
+	const addExerciseElement = document.createElement('li');
+	addExerciseElement.classList.add('breadcrumb-item');
+	if (active) {
+		addExerciseElement.classList.add('active');
+		addExerciseElement.innerText = 'Dodaj ćwiczenie';
+	} else {
+		const addExerciseLink = document.createElement('a');
+		addExerciseLink.href = `/pages/add-exercise.html`;
+		addExerciseLink.innerText = 'Dodaj ćwiczenie';
+		addExerciseElement.appendChild(addExerciseLink);
+	}
+	return addExerciseElement;
 }
 
 export function setupTopBar() {

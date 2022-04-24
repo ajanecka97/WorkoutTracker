@@ -1,3 +1,14 @@
+.btn.btn-primary {
+  background-color: #51d8ee;
+  color: #00363e;
+  border-color: #51d8ee;
+}
+.btn.btn-secondary {
+  background-color: #b1cbd1;
+  color: #1c3439;
+  border-color: #b1cbd1;
+}
+
 .c-table {
   width: 100%;
   border-spacing: 2px;
@@ -133,12 +144,21 @@ html body .navbar {
   background-color: #51d8ee;
   color: #00363e;
   padding: 5px;
+  z-index: 1030;
 }
 @media (max-width: 575px) {
   html body .navbar {
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+}
+html body .main-container {
+  margin-top: 65px !important;
+}
+@media (max-width: 575px) {
+  html body .main-container {
+    margin-top: 55px !important;
   }
 }
 html body .footer {

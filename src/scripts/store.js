@@ -5,93 +5,63 @@ export function setupLocalStorage() {
 		const availableExercises = [
 			{
 				id: generateUUID(),
-				name: 'Squats',
-				category: 'Legs',
-				description: '',
-				difficulty: 'easy',
+				name: 'Przysiady',
+				category: 'Nogi',
 				recommendedRepetitions: 5,
-				recommendedSets: 3,
 			},
 			{
 				id: generateUUID(),
-				name: 'Bench press',
-				category: 'Chest',
-				description: '',
-				difficulty: 'easy',
-				recommendedRepetitions: 5,
-				recommendedSets: 3,
+				name: 'Wyciskanie sztangi',
+				category: 'Klatka piersiowa',
+				recommendedRepetitions: 10,
 			},
 			{
 				id: generateUUID(),
-				name: 'Deadlift',
-				category: 'Back',
-				description: '',
-				difficulty: 'easy',
+				name: 'Martwy ciąg',
+				category: 'Plecy',
 				recommendedRepetitions: 5,
-				recommendedSets: 3,
 			},
 			{
 				id: generateUUID(),
-				name: 'Biceps curl',
+				name: 'Uginanie przedramion z hantlami',
 				category: 'Biceps',
-				description: '',
-				difficulty: 'easy',
-				recommendedRepetitions: 5,
-				recommendedSets: 3,
+				recommendedRepetitions: 10,
 			},
 			{
 				id: generateUUID(),
-				name: 'Triceps extension',
+				name: 'Prostowanie przedramion z linką wyciągu górnego',
 				category: 'Triceps',
-				description: '',
-				difficulty: 'easy',
-				recommendedRepetitions: 5,
-				recommendedSets: 3,
+				recommendedRepetitions: 15,
 			},
 			{
 				id: generateUUID(),
-				name: 'Leg press',
-				category: 'Legs',
-				description: '',
-				difficulty: 'easy',
-				recommendedRepetitions: 5,
-				recommendedSets: 3,
+				name: 'Wykroki',
+				category: 'Nogi',
+				recommendedRepetitions: 15,
 			},
 			{
 				id: generateUUID(),
-				name: 'Leg curl',
-				category: 'Legs',
-				description: '',
-				difficulty: 'easy',
-				recommendedRepetitions: 5,
-				recommendedSets: 3,
+				name: 'Suwnica',
+				category: 'Nogi',
+				recommendedRepetitions: 15,
 			},
 			{
 				id: generateUUID(),
-				name: 'Calf raise',
-				category: 'Calves',
-				description: '',
-				difficulty: 'easy',
-				recommendedRepetitions: 5,
-				recommendedSets: 3,
+				name: 'Wznosy na palcach',
+				category: 'Łydki',
+				recommendedRepetitions: 15,
 			},
 			{
 				id: generateUUID(),
-				name: 'Shoulder press',
-				category: 'Shoulders',
-				description: '',
-				difficulty: 'easy',
-				recommendedRepetitions: 5,
-				recommendedSets: 3,
+				name: 'Wyciskanie sztangi nad głowę',
+				category: 'Ramiona',
+				recommendedRepetitions: 10,
 			},
 			{
 				id: generateUUID(),
-				name: 'Shoulder shrug',
-				category: 'Shoulders',
-				description: '',
-				difficulty: 'easy',
-				recommendedRepetitions: 5,
-				recommendedSets: 3,
+				name: 'Wznosy hantli bokiem',
+				category: 'Ramiona',
+				recommendedRepetitions: 15,
 			},
 		];
 
@@ -102,7 +72,7 @@ export function setupLocalStorage() {
 		const defaultWorkouts = [
 			{
 				id: generateUUID(),
-				name: 'Upper body',
+				name: 'Góra',
 				exercises: [
 					getExercise(1).id,
 					getExercise(3).id,
@@ -115,13 +85,27 @@ export function setupLocalStorage() {
 			},
 			{
 				id: generateUUID(),
-				name: 'Lower body',
+				name: 'Dół',
 				exercises: [
 					getExercise(0).id,
 					getExercise(2).id,
 					getExercise(5).id,
 					getExercise(6).id,
 					getExercise(7).id,
+				],
+				lastTraining: '2021-03-01',
+				createdDate: '2020-01-01',
+			},
+			{
+				id: generateUUID(),
+				name: 'Całe ciało',
+				exercises: [
+					getExercise(1).id,
+					getExercise(0).id,
+					getExercise(8).id,
+					getExercise(2).id,
+					getExercise(4).id,
+					getExercise(3).id,
 				],
 				lastTraining: '2021-03-01',
 				createdDate: '2020-01-01',
@@ -192,7 +176,9 @@ export function getExerciseHistoryItems() {
 }
 
 export function getExerciseHistoryItemsByExerciseId(exerciseId) {
-	return JSON.parse(localStorage.getItem('exerciseHistory')).filter(
-		(item) => item.exerciseId === exerciseId
+	return (
+		JSON.parse(localStorage.getItem('exerciseHistory'))?.filter(
+			(item) => item.exerciseId === exerciseId
+		) ?? []
 	);
 }
