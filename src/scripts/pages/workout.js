@@ -1,6 +1,11 @@
 import { setupTopBar } from '../components/top-bar.js';
-import { getExerciseById, getWorkoutById } from '../store.js';
-import { getQueryParameterFromUrl, impale } from '../utils.js';
+import { getExerciseById, getExerciseHistoryItemsByExerciseId, getWorkoutById } from '../store.js';
+import {
+	getQueryParameterFromUrl,
+	groupByPropertySorted,
+	compareDatesFromStrings,
+	toLocaleDateString,
+} from '../utils.js';
 import { setupTableRenderListener } from '../components/table.js';
 
 function setupWorkoutTableRow(exercises) {
@@ -33,8 +38,19 @@ function renderWorkoutTable(exercises) {
 }
 
 function calculateTotalWeightOfLastTraining(exercise) {
-	if (exercise.sessions) {
-		return exercise.sessions.reduce((acc, session) => acc + session.weight, 0);
+	const exerciseHistory = getExerciseHistoryItemsByExerciseId(exercise.id);
+	const exerciseSessions = groupByPropertySorted(
+		exerciseHistory,
+		'date',
+		toLocaleDateString,
+		compareDatesFromStrings,
+		true
+	);
+	if (exerciseSessions.length) {
+		return exerciseSessions[0].value.reduce(
+			(acc, session) => acc + session.reps * session.weight,
+			0
+		);
 	}
 	return '-';
 }
@@ -45,5 +61,8 @@ window.onload = function setupWorkoutTable() {
 	const workoutId = getQueryParameterFromUrl('workoutId');
 	const workout = getWorkoutById(workoutId);
 	const exercises = workout.exercises.map(getExerciseById);
+
+	const workoutMobileHeader = document.getElementById('workout-mobile-header');
+	workoutMobileHeader.innerText = workout.name;
 	renderWorkoutTable(exercises);
 };

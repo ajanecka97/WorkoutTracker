@@ -5,7 +5,8 @@ import {
 	getExerciseHistoryItems,
 	getWorkoutById,
 	getExerciseById,
-	editWorkout,
+	updateWorkout,
+	updateExercise,
 } from '../store.js';
 import {
 	getQueryParameterFromUrl,
@@ -20,12 +21,20 @@ function saveExerciseHisotryItem() {
 	const exerciseWeightInput = document.getElementById('exercise-weight');
 
 	const exerciseHistoryItem = {
-		exerciseId: getQueryParameterFromUrl('id'),
+		exerciseId: getQueryParameterFromUrl('exerciseId'),
 		workoutId: getQueryParameterFromUrl('workoutId'),
 		reps: exerciseRepsInput.value,
 		weight: exerciseWeightInput.value,
 		date: Date.now(),
 	};
+
+	const exerciseId = getQueryParameterFromUrl('exerciseId');
+	const exercise = getExerciseById(exerciseId);
+	const currentPr = exercise.pr ?? 0;
+
+	if (exerciseRepsInput.value * exerciseWeightInput.value > currentPr) {
+		updateExercise({ ...exercise, pr: exerciseRepsInput.value * exerciseWeightInput.value });
+	}
 
 	addExerciseHisotryItem(exerciseHistoryItem);
 	renderExerciseHistory();
@@ -34,7 +43,8 @@ function saveExerciseHisotryItem() {
 function groupExerciseHistoryItemsByDate() {
 	const exerciseHistoryItems = getExerciseHistoryItems();
 	const filteredExerciseHistoryItems = exerciseHistoryItems.filter(
-		(exerciseHistoryItem) => exerciseHistoryItem.exerciseId === getQueryParameterFromUrl('id')
+		(exerciseHistoryItem) =>
+			exerciseHistoryItem.exerciseId === getQueryParameterFromUrl('exerciseId')
 	);
 
 	const groupedExerciseHistoryItems = groupByPropertySorted(
@@ -54,8 +64,10 @@ function renderExerciseHeader() {
 	const exerciseHeader = document.getElementById('exercise-header');
 	exerciseHeader.innerHTML = `
         <h1 class="display-4">${exercise.name}</h1>
-        <p class="lead">${exercise.description}</p>
     `;
+
+	const exerciseMobileHeader = document.getElementById('exercise-mobile-header');
+	exerciseMobileHeader.innerText = `${exercise.name}`;
 }
 
 function renderExerciseHistoryHeader(date) {
@@ -74,30 +86,6 @@ function renderExerciseHistoryHeader(date) {
     `;
 	return header;
 }
-
-// function renderExerciseHistoryItemsTableHeader() {
-// 	const tableHeader = document.createElement('tr');
-// 	tableHeader.innerHTML = `
-//         <th>Data</th>
-//         <th>Liczba powtórzeń</th>
-//         <th>Waga</th>
-//     `;
-// 	return tableHeader;
-// }
-
-// function renderExerciseHistoryItemsTableBody(exerciseHistoryItems) {
-// 	const tableBody = document.createElement('tbody');
-// 	exerciseHistoryItems.forEach((exerciseHistoryItem) => {
-// 		const tableRow = document.createElement('tr');
-// 		tableRow.innerHTML = `
-//             <td>${new Date(exerciseHistoryItem.date).toLocaleTimeString()}</td>
-//             <td>${exerciseHistoryItem.reps}</td>
-//             <td>${exerciseHistoryItem.weight}</td>
-//         `;
-// 		tableBody.appendChild(tableRow);
-// 	});
-// 	return tableBody;
-// }
 
 function setupTableRows(exerciseHistoryItems) {
 	return exerciseHistoryItems.map((item) => [
@@ -165,7 +153,7 @@ function goToNextExercise() {
 		window.location.href = `./exercise.html?exerciseId=${nextExerciseId}&workoutId=${workoutId}`;
 	} else {
 		workout.lastTraining = Date.now();
-		editWorkout(workout);
+		updateWorkout(workout);
 		window.location.href = `./workout.html?workoutId=${workoutId}`;
 	}
 }
@@ -194,6 +182,7 @@ window.onload = function setupExercisePage() {
 	const nextExerciseButton = document.getElementById('next-exercise-button');
 	const previousExerciseButtonMobile = document.getElementById('previous-exercise-button-mobile');
 	const nextExerciseButtonMobile = document.getElementById('next-exercise-button-mobile');
+	const goBackArrow = document.getElementById('go-back-arrow');
 
 	const currentExercisePosition = exercisePosition();
 	const workout = getWorkoutById(getQueryParameterFromUrl('workoutId'));
@@ -205,6 +194,8 @@ window.onload = function setupExercisePage() {
 		nextExerciseButton.innerText = 'Zakończ trening';
 		nextExerciseButtonMobile.innerText = 'Zakończ trening';
 	}
+
+	goBackArrow.href = `./workout.html?workoutId=${workoutId}`;
 
 	previousExerciseButton.addEventListener('click', goToPreviousExercise);
 	nextExerciseButton.addEventListener('click', goToNextExercise);

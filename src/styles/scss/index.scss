@@ -17,6 +17,7 @@ html {
 			padding: 5px;
 
 			@media (max-width: 575px) {
+				width: 100%;
 				display: flex;
 				justify-content: center;
 			}

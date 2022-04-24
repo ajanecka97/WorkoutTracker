@@ -149,6 +149,13 @@ export function addExercise(exercise) {
 	localStorage.setItem('exercises', JSON.stringify(exercises));
 }
 
+export function updateExercise(exercise) {
+	const exercises = JSON.parse(localStorage.getItem('exercises')) ?? [];
+	const index = exercises.findIndex((e) => e.id === exercise.id);
+	exercises[index] = exercise;
+	localStorage.setItem('exercises', JSON.stringify(exercises));
+}
+
 export function getWorkouts() {
 	return JSON.parse(localStorage.getItem('workouts')) ?? [];
 }
@@ -167,7 +174,7 @@ export function addWorkout(workout) {
 	localStorage.setItem('workouts', JSON.stringify(workouts));
 }
 
-export function editWorkout(workout) {
+export function updateWorkout(workout) {
 	const workouts = JSON.parse(localStorage.getItem('workouts')) ?? [];
 	const index = workouts.findIndex((w) => w.id === workout.id);
 	workouts[index] = workout;
@@ -182,4 +189,10 @@ export function addExerciseHisotryItem(exerciseHistoryItem) {
 
 export function getExerciseHistoryItems() {
 	return JSON.parse(localStorage.getItem('exerciseHistory')) ?? [];
+}
+
+export function getExerciseHistoryItemsByExerciseId(exerciseId) {
+	return JSON.parse(localStorage.getItem('exerciseHistory')).filter(
+		(item) => item.exerciseId === exerciseId
+	);
 }

@@ -102,6 +102,7 @@ html body .navbar {
 }
 @media (max-width: 575px) {
   html body .navbar {
+    width: 100%;
     display: flex;
     justify-content: center;
   }
@@ -113,6 +114,10 @@ html body .footer {
 @media (max-width: 575px) {
   html body .footer .btn {
     width: 100%;
+  }
+  html body .footer .icon-navigation {
+    color: #00363e;
+    background-color: #00363e;
   }
 }
 

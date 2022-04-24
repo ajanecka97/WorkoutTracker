@@ -20,11 +20,17 @@
 	</head>
 	<body>
 		<div class="container-fluid p-0 d-flex flex-column h-100">
-			<nav class="navbar">
-				<div class="navbar-container">
-					<div class="navbar-brand d-inline-block">GymBuddy</div>
-					<div id="top-bar" class="d-none d-sm-inline-block"></div>
+			<nav class="navbar justify-content-between d-sm-block">
+				<div class="d-sm-none">
+					<a href="../index.html" class="icon-navigation">
+						<img src="../assets/home.svg" alt="home" />
+					</a>
 				</div>
+				<div class="navbar-brand d-none d-sm-inline-block">GymBuddy</div>
+				<div id="workout-mobile-header" class="navbar-brand d-sm-none"></div>
+				<div id="top-bar" class="d-none d-sm-inline-block"></div>
+				<!-- spacer -->
+				<div class="d-sm-none" style="width: 26px"></div>
 			</nav>
 			<div class="container mt-3 flex-fill">
 				<table id="workout-table" class="c-table"></table>
