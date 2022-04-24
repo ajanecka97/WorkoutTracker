@@ -180,27 +180,21 @@ window.onload = function setupExercisePage() {
 
 	const previousExerciseButton = document.getElementById('previous-exercise-button');
 	const nextExerciseButton = document.getElementById('next-exercise-button');
-	const previousExerciseButtonMobile = document.getElementById('previous-exercise-button-mobile');
-	const nextExerciseButtonMobile = document.getElementById('next-exercise-button-mobile');
 	const goBackArrow = document.getElementById('go-back-arrow');
 
 	const currentExercisePosition = exercisePosition();
 	const workout = getWorkoutById(getQueryParameterFromUrl('workoutId'));
 	console.log(currentExercisePosition);
 	if (currentExercisePosition === 0) {
-		previousExerciseButton.innerText = 'Powrót do treningu';
-		previousExerciseButtonMobile.innerText = 'Powrót';
+		previousExerciseButton.innerText = 'Powrót';
 	} else if (currentExercisePosition === workout.exercises.length - 1) {
 		nextExerciseButton.innerText = 'Zakończ trening';
-		nextExerciseButtonMobile.innerText = 'Zakończ trening';
 	}
 
 	goBackArrow.href = `./workout.html?workoutId=${workoutId}`;
 
 	previousExerciseButton.addEventListener('click', goToPreviousExercise);
 	nextExerciseButton.addEventListener('click', goToNextExercise);
-	previousExerciseButtonMobile.addEventListener('click', goToPreviousExercise);
-	nextExerciseButtonMobile.addEventListener('click', goToNextExercise);
 	addExerciseHistoryItemButton.addEventListener('click', saveExerciseHisotryItem);
 
 	renderExerciseHeader();

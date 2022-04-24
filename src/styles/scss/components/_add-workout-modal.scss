@@ -1,0 +1,5 @@
+@use '../variables' as v;
+.modal-content {
+	background-color: v.$color-background;
+	color: v.$color-background--text;
+}

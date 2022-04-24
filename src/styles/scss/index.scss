@@ -1,5 +1,7 @@
 @use 'variables' as v;
-@use './components/table.scss';
+@use './components/table';
+@use './components/exercises-accordion';
+@use './components/add-workout-modal';
 
 html {
 	height: 100vh;

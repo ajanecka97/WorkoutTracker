@@ -1,17 +1,18 @@
-import { generateUUID } from "../utils.js";
+import { generateUUID } from '../utils.js';
+import { setupTableRenderListener } from './table.js';
 
 export function renderWorkoutModal(workout) {
 	//if modal already exists - remove it
-	const previousWorkoutModal = document.getElementById("workout-modal");
+	const previousWorkoutModal = document.getElementById('workout-modal');
 	if (previousWorkoutModal) previousWorkoutModal.remove();
 
-	const workoutModal = document.createElement("div");
-	workoutModal.id = "workout-modal";
-	workoutModal.classList.add("modal", "fade");
-	const workoutModalDialog = document.createElement("div");
-	workoutModalDialog.classList.add("modal-dialog");
-	const workoutModalContent = document.createElement("div");
-	workoutModalContent.classList.add("modal-content");
+	const workoutModal = document.createElement('div');
+	workoutModal.id = 'workout-modal';
+	workoutModal.classList.add('modal', 'fade');
+	const workoutModalDialog = document.createElement('div');
+	workoutModalDialog.classList.add('modal-dialog');
+	const workoutModalContent = document.createElement('div');
+	workoutModalContent.classList.add('modal-content');
 	const workoutModalHeader = renderWorkoutModalHeader();
 	const workoutModalBody = renderWorkoutModalBody(workout);
 	const workoutModalFooter = renderWorkoutModalFooter();
@@ -27,8 +28,8 @@ export function renderWorkoutModal(workout) {
 }
 
 function renderWorkoutModalHeader() {
-	const workoutModalHeader = document.createElement("div");
-	workoutModalHeader.classList.add("modal-header");
+	const workoutModalHeader = document.createElement('div');
+	workoutModalHeader.classList.add('modal-header');
 	workoutModalHeader.innerHTML = `
         <h5 class="modal-title">Stwórz trening</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -39,14 +40,14 @@ function renderWorkoutModalHeader() {
 }
 
 function renderWorkoutModalBody(workout) {
-	const workoutModalBody = document.createElement("div");
-	workoutModalBody.classList.add("modal-body");
-	const nameInput = document.createElement("input");
-	nameInput.id = "workout-name";
-	nameInput.type = "text";
-	nameInput.classList.add("form-control");
-	nameInput.placeholder = "Nazwa treningu";
-	nameInput.value = workout.name ?? "";
+	const workoutModalBody = document.createElement('div');
+	workoutModalBody.classList.add('modal-body');
+	const nameInput = document.createElement('input');
+	nameInput.id = 'workout-name';
+	nameInput.type = 'text';
+	nameInput.classList.add('form-control');
+	nameInput.placeholder = 'Nazwa treningu';
+	nameInput.value = workout.name ?? '';
 	const exerciseList = renderExercisesTable(workout.exercises);
 	workoutModalBody.appendChild(nameInput);
 	workoutModalBody.appendChild(exerciseList);
@@ -54,20 +55,20 @@ function renderWorkoutModalBody(workout) {
 }
 
 function renderWorkoutModalFooter() {
-	const workoutModalFooter = document.createElement("div");
-	workoutModalFooter.classList.add("modal-footer");
+	const workoutModalFooter = document.createElement('div');
+	workoutModalFooter.classList.add('modal-footer');
 
-	const dismissButton = document.createElement("button");
-	dismissButton.classList.add("btn", "btn-secondary", "btn-sm");
-	dismissButton.type = "button";
-	dismissButton.innerHTML = "Anuluj";
-	dismissButton.setAttribute("data-bs-dismiss", "modal");
+	const dismissButton = document.createElement('button');
+	dismissButton.classList.add('btn', 'btn-secondary', 'btn-sm');
+	dismissButton.type = 'button';
+	dismissButton.innerHTML = 'Anuluj';
+	dismissButton.setAttribute('data-bs-dismiss', 'modal');
 
-	const saveButton = document.createElement("button");
-	saveButton.classList.add("btn", "btn-primary", "btn-sm");
-	saveButton.type = "button";
-	saveButton.innerHTML = "Zapisz";
-	saveButton.addEventListener("click", saveWorkoutToLocalStorage);
+	const saveButton = document.createElement('button');
+	saveButton.classList.add('btn', 'btn-primary', 'btn-sm');
+	saveButton.type = 'button';
+	saveButton.innerHTML = 'Zapisz';
+	saveButton.addEventListener('click', saveWorkoutToLocalStorage);
 
 	workoutModalFooter.appendChild(dismissButton);
 	workoutModalFooter.appendChild(saveButton);
@@ -76,24 +77,13 @@ function renderWorkoutModalFooter() {
 }
 
 function renderExercisesTable(exercises) {
-	const exercisesTable = document.createElement("table");
-	exercisesTable.id = "exercises-table";
-	exercisesTable.classList.add("table");
+	const exercisesTable = document.createElement('table');
+	exercisesTable.id = 'exercises-table';
+	exercisesTable.classList.add('c-table', 'mt-2');
 	exercisesTable.exercises = exercises;
-	const exercisesTableHead = document.createElement("thead");
-	exercisesTableHead.innerHTML = `
-        <tr>
-            <th>Pozycja</th>
-            <th>Nazwa ćwiczenia</th>
-        </tr>
-        `;
-	const exercisesTableBody = document.createElement("tbody");
-	exercisesTableBody.innerHTML = exercises
-		.map(renderExercisesTableRow)
-		.join("");
-
-	exercisesTable.appendChild(exercisesTableHead);
-	exercisesTable.appendChild(exercisesTableBody);
+	const headers = ['Pozycja', 'Nazwa ćwiczenia'];
+	const rows = exercises.map((exercise, index) => [index + 1, exercise.name]);
+	setupTableRenderListener(exercisesTable, headers, rows);
 	return exercisesTable;
 }
 
@@ -107,9 +97,9 @@ function renderExercisesTableRow(exercise, index) {
 }
 
 function saveWorkoutToLocalStorage() {
-	const workoutName = document.getElementById("workout-name").value;
+	const workoutName = document.getElementById('workout-name').value;
 	const workoutExercises = document
-		.getElementById("exercises-table")
+		.getElementById('exercises-table')
 		.exercises.map((exercise) => exercise.id);
 	const workout = {
 		id: generateUUID(),
@@ -119,12 +109,12 @@ function saveWorkoutToLocalStorage() {
 		createdDate: Date.now(),
 	};
 
-	const workouts = JSON.parse(localStorage.getItem("workouts")) || [];
+	const workouts = JSON.parse(localStorage.getItem('workouts')) || [];
 	workouts.push(workout);
-	localStorage.setItem("workouts", JSON.stringify(workouts));
+	localStorage.setItem('workouts', JSON.stringify(workouts));
 
-	const workoutModal = document.getElementById("workout-modal");
+	const workoutModal = document.getElementById('workout-modal');
 	workoutModal.remove();
 
-	window.location.href = "../index.html";
+	window.location.href = '../index.html';
 }

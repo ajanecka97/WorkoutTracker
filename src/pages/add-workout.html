@@ -10,45 +10,58 @@
 			integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 			crossorigin="anonymous"
 		/>
+		<link href="../styles/css/index.css" rel="stylesheet" />
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 			crossorigin="anonymous"
 		></script>
-		<link rel="stylesheet" href="../styles/add-workout.css" />
 		<script src="../scripts/pages/add-workout.js" type="module"></script>
 	</head>
 	<body>
-		<nav id="top-bar"></nav>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<h1>Dodaj trening</h1>
+		<div class="container-fluid p-0 d-flex flex-column h-100">
+			<nav class="navbar justify-content-between d-sm-block">
+				<div class="d-sm-none">
+					<a href="../index.html" class="icon-navigation">
+						<img src="../assets/home.svg" alt="home" />
+					</a>
+				</div>
+				<div class="navbar-brand d-none d-sm-inline-block">GymBuddy</div>
+				<div id="workout-mobile-header" class="navbar-brand d-sm-none">Dodaj trening</div>
+				<div id="top-bar" class="d-none d-sm-inline-block"></div>
+				<!-- spacer -->
+				<div class="d-sm-none" style="width: 26px"></div>
+			</nav>
+			<div class="container">
+				<div class="row d-none d-sm-block">
+					<div class="col-md-12">
+						<h1>Dodaj trening</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<form>
+							<div class="form-group my-2">
+								<label for="workoutName">Wyszukaj</label>
+								<input
+									type="text"
+									class="form-control"
+									id="search-exercise"
+									placeholder="Nazwa treningu"
+								/>
+							</div>
+							<div id="exercise-list" class="accordion mb-5"></div>
+						</form>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<form>
-						<div class="form-group my-2">
-							<label for="workoutName">Wyszukaj</label>
-							<input
-								type="text"
-								class="form-control"
-								id="search-exercise"
-								placeholder="Nazwa treningu"
-							/>
-						</div>
-						<div id="exercise-list" class="accordion"></div>
-						<button
-							type="button"
-							class="btn btn-primary mt-2"
-							id="add-workout-button"
-							data-bs-toggle="modal"
-							data-bs-target="#workout-modal"
-						>
+			<div class="container position-fixed bottom-0 start-50 translate-middle-x footer">
+				<div class="row justify-content-between py-2">
+					<div class="col py-0">
+						<button type="button" class="btn btn-primary" id="add-workout-button">
 							Dodaj
 						</button>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>

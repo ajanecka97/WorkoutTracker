@@ -84,6 +84,40 @@
   }
 }
 
+.accordion-item {
+  border: none;
+}
+
+.accordion-button {
+  background-color: #b1cbd1;
+  color: #1c3439;
+}
+.accordion-button:not(.selected) {
+  background-color: #b1cbd1;
+  color: #1c3439;
+}
+.accordion-button:focus {
+  border: none;
+  box-shadow: none;
+}
+
+.exercise-card {
+  background-color: #2d3132;
+  color: #e1e3e3;
+}
+.exercise-card:nth-child(even) {
+  background-color: #383c3d;
+}
+.exercise-card.selected {
+  border: solid 1px #899294;
+  box-shadow: inset 0 0 10px #899294;
+}
+
+.modal-content {
+  background-color: #191c1d;
+  color: #e1e3e3;
+}
+
 html {
   height: 100vh;
 }
@@ -114,10 +148,6 @@ html body .footer {
 @media (max-width: 575px) {
   html body .footer .btn {
     width: 100%;
-  }
-  html body .footer .icon-navigation {
-    color: #00363e;
-    background-color: #00363e;
   }
 }
 

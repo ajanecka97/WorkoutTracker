@@ -19,7 +19,7 @@ function renderCategory(category) {
 
 function rendeExerciseCard(exercise) {
 	var card = document.createElement('div');
-	card.classList.add('p-2', 'm-2');
+	card.classList.add('p-4', 'exercise-card');
 	card.innerHTML = `
 		<h3>${capitalizeFirstLetter(exercise.name)}</h3>
 		<p>${exercise.description}</p>
@@ -48,7 +48,7 @@ function renderExerciseList(exercises) {
 		exerciseListForCategoryContainer.setAttribute('data-bs-parent', 'exercise-list');
 		exerciseListForCategoryContainer.classList.add('accordion-collapse', 'collapse', 'show');
 		let exerciseListForCategory = document.createElement('div');
-		exerciseListForCategory.classList.add('accordion-body');
+		exerciseListForCategory.classList.add('accordion-body', 'p-0');
 		exercises.forEach((exercise) => {
 			let exerciseCard = rendeExerciseCard(exercise);
 			exerciseListForCategory.appendChild(exerciseCard);
@@ -70,7 +70,7 @@ function selectCard() {
 	const workout = {
 		exercises: selectedExercises,
 	};
-	const modal = renderWorkoutModal(workout);
+	renderWorkoutModal(workout);
 }
 
 function filterExercises(event) {
@@ -80,6 +80,17 @@ function filterExercises(event) {
 		exercise.name.toLowerCase().includes(filter)
 	);
 	renderExerciseList(filteredExercises);
+}
+
+function openWorkoutModal() {
+	const myModalEl = document.querySelector('#workout-modal');
+	const modal = bootstrap.Modal.getOrCreateInstance(myModalEl); // Returns a Bootstrap modal instance
+
+	if (selectedExercises.length === 0) {
+		alert('Musisz wybrać przynajmniej jedno ćwiczenie');
+		return;
+	}
+	modal.show();
 }
 
 // main script
@@ -92,7 +103,11 @@ window.onload = function setupExerciseTable() {
 	const exercises = getExercises();
 
 	const searchExerciseInput = document.getElementById('search-exercise');
+	const addWorkoutButton = document.getElementById('add-workout-button');
+
 	searchExerciseInput.addEventListener('input', filterExercises);
+	addWorkoutButton.addEventListener('click', openWorkoutModal);
 
 	renderExerciseList(exercises);
+	renderWorkoutModal({ exercises: selectedExercises });
 };

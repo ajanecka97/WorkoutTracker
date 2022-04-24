@@ -1,0 +1,34 @@
+@use '../variables' as v;
+
+.accordion-item {
+	border: none;
+}
+
+.accordion-button {
+	background-color: v.$color-secondary;
+	color: v.$color-secondary--text;
+
+	&:not(.selected) {
+		background-color: v.$color-secondary;
+		color: v.$color-secondary--text;
+	}
+
+	&:focus {
+		border: none;
+		box-shadow: none;
+	}
+}
+
+.exercise-card {
+	background-color: v.$color-surface;
+	color: v.$color-surface--text;
+
+	&:nth-child(even) {
+		background-color: v.$color-surface-2;
+	}
+
+	&.selected {
+		border: solid 1px v.$color-outline;
+		box-shadow: inset 0 0 10px v.$color-outline;
+	}
+}
