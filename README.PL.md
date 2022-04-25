@@ -1,10 +1,10 @@
-# GymBuddy
+# **GymBuddy**
 
 Projekt zrobiony w ramach zadania na studiach
 
-## CZĘŚĆ I
+## **CZĘŚĆ I**
 
-### Wymagagnia
+### **Wymagagnia**
 
 -   5 stron HTML
     -   Strony powinny zawierać:
@@ -21,7 +21,7 @@ Projekt zrobiony w ramach zadania na studiach
     -   Strona musi wyglądać dobrze na komputerze, tablecie i komórce
 -   Strona musi przejść walidację: http://validator.w3.org/
 
-### Opis projektu
+### **Opis projektu**
 
 Aplikacja to prosty dziennik ćwiczeń na siłowni. Składa się z następujących stron:
 
@@ -49,7 +49,7 @@ Użyte technologie:
 -   Bootstrap
 -   Node (do zarządzania pakietami - kompilacja SCSS, HTTP server)
 
-#### Set up
+#### **Set up**
 
 W celu uruchomienia strony w lokalnym środowisku, można skorzystać z następujących kroków:
 

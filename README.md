@@ -1,10 +1,10 @@
-## GymBuddy
+# **GymBuddy**
 
 Project done as an assignment for an university
 
-### PART I
+## **PART I**
 
-#### Requirements
+### **Requirements**
 
 -   5 HTML pages
     -   Presence of
@@ -20,7 +20,7 @@ Project done as an assignment for an university
     -   Site has to look good on desktop, tablet and smartphone
 -   Website has to pass validation on http://validator.w3.org/
 
-#### Project description
+### **Project description**
 
 Application is simple workout tracker. It consists of the following pages:
 
@@ -48,7 +48,7 @@ Technologies used:
 -   Bootstrap
 -   Node (for package management - compiling SCSS, HTTP server)
 
-#### Set up
+### **Set up**
 
 In order to run a website in local environment you can follow the following steps
 
